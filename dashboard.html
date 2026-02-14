@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeonMeet Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:#0f172a;
+  color:white;
+  padding:20px;
+}
+
+.header{
+  text-align:center;
+  font-size:24px;
+  font-weight:600;
+  margin-bottom:20px;
+  color:#00f5ff;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:20px;
+}
+
+.card-wrapper{
+  display:flex;
+  flex-direction:column;
+}
+
+.card{
+  position:relative;
+  width:100%;
+  aspect-ratio:1/1;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 0 15px rgba(0,245,255,0.2);
+}
+
+.card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* Username inside image */
+.username{
+  position:absolute;
+  bottom:10px;
+  left:10px;
+  background:rgba(0,0,0,0.6);
+  padding:5px 12px;
+  border-radius:20px;
+  font-size:13px;
+}
+
+.call-btn{
+  margin-top:8px;
+  padding:10px 0;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(90deg,#ff00c8,#00f5ff);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.popup{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.popup-box{
+  background:#1e293b;
+  padding:30px;
+  border-radius:15px;
+  text-align:center;
+  width:280px;
+}
+
+.login-btn{
+  margin-top:15px;
+  padding:10px 25px;
+  border:none;
+  border-radius:25px;
+  background:linear-gradient(90deg,#ff00c8,#00f5ff);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">Top Live Girls</div>
+<div class="grid" id="userGrid"></div>
+
+<!-- Popup -->
+<div class="popup" id="popup">
+  <div class="popup-box">
+    <h2>Login to Video Call</h2>
+    <p>Please login to continue.</p>
+    <button class="login-btn" onclick="goToLogin()">Login</button>
+  </div>
+</div>
+
+<script>
+
+/* 25 Girl Images */
+let girls = [
+"https://iili.io/qJ9dXQs.jpg","https://iili.io/qJ9KMlf.md.jpg","https://iili.io/qJ9CP2a.md.jpg","https://iili.io/qJ9xgBS.md.jpg","https://iili.io/qJ9TrEN.md.jpg",
+"https://iili.io/qJ9259S.jpg","https://iili.io/qJ9fHbI.md.jpg","https://iili.io/qJ9nCG9.md.jpg","https://iili.io/qJ9z0F9.md.jpg","https://iili.io/qJ9uI8F.jpg",
+"https://iili.io/qJ93usa.md.jpg","https://iili.io/qJ9qx3J.jpg","https://iili.io/qJ9nWjp.md.jpg","https://iili.io/qJ9IqAb.md.jpg","https://iili.io/qJ9gFrx.md.jpg",
+"https://iili.io/qJ93mBa.md.jpg","https://iili.io/qJ9qmwN.md.jpg","https://iili.io/qJ9oJP1.md.jpg","https://iili.io/qJ9IS07.jpg","https://iili.io/qJ940fs.md.jpg",
+"https://iili.io/qJ9F8yN.md.jpg","https://iili.io/qJ9BSls.md.jpg","https://iili.io/qJ9owDQ.md.jpg","https://iili.io/qJ9T9ea.md.jpg","https://iili.io/qJ96V4a.jpg"
+];
+
+/* Indian First Names */
+let indianNames = [
+"Ananya","Priya","Sneha","Riya","Pooja",
+"Neha","Kavya","Aisha","Simran","Ishita",
+"Divya","Meera","Nisha","Tanya","Shreya",
+"Aarti","Sakshi","Muskan","Radhika","Komal",
+"Payal","Tanvi","Mitali","Jyoti","Bhavna"
+];
+
+/* Pair Image + Name Together */
+let users = [];
+
+for (let i = 0; i < 25; i++) {
+  users.push({
+    img: girls[i],
+    name: indianNames[i]
+  });
+}
+
+/* Shuffle Function */
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+/* Shuffle Users (Image + Name Together) */
+shuffleArray(users);
+
+const grid = document.getElementById("userGrid");
+
+/* Render Cards */
+for (let i = 0; i < users.length; i++) {
+
+  const card = `
+    <div class="card-wrapper">
+      <div class="card">
+        <img src="${users[i].img}" alt="User">
+        <div class="username">${users[i].name}</div>
+      </div>
+      <button class="call-btn" onclick="openPopup()">Video Call</button>
+    </div>
+  `;
+
+  grid.innerHTML += card;
+}
+
+/* Popup */
+function openPopup(){
+  document.getElementById("popup").style.display = "flex";
+}
+
+function goToLogin(){
+  window.location.href = "login.html";
+}
+
+</script>
+
+</body>
+</html>
